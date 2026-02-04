@@ -1,0 +1,8 @@
+the above pdfs to  make a cgpa and gpa calculater
+user select 
+1. select departmen
+2. Select the Semester 
+3. show the subject present at the specific semester that will be automaticaly assign the credit at the pdf
+4 . O = 10 , A+=9 , A=8, B+=7, B=6,  C=5,D=4, F= FAILL user only provide the alpha betes 
+5. also calculate the sem vise gpa and sgpa
+provide the code as html , css , js 

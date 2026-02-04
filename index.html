@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering CGPA/GPA Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .right-panel {
+            flex: 2;
+            min-width: 300px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8eaf6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            color: #3949ab;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #3949ab;
+        }
+
+        .grade-info {
+            background-color: #f0f4ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 25px;
+            border-left: 4px solid #3949ab;
+        }
+
+        .grade-info h4 {
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+
+        .grade-info table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .grade-info th, .grade-info td {
+            padding: 8px 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .grade-info th {
+            background-color: #e8eaf6;
+        }
+
+        .subject-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .subject-row:last-child {
+            border-bottom: none;
+        }
+
+        .subject-name {
+            flex: 3;
+            font-weight: 500;
+        }
+
+        .subject-credit {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .subject-grade {
+            flex: 1;
+            text-align: center;
+        }
+
+        .grade-select {
+            width: 80px;
+            padding: 8px 5px;
+            text-align: center;
+        }
+
+        .results {
+            background-color: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .results h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .result-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a237e;
+            margin: 10px 0;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: #3949ab;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #283593;
+        }
+
+        .btn-secondary {
+            background-color: #e8eaf6;
+            color: #3949ab;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5ee;
+        }
+
+        .btn-success {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #1b5e20;
+        }
+
+        .manual-entry {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .manual-entry h4 {
+            color: #ff9800;
+            margin-bottom: 15px;
+        }
+
+        .manual-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .manual-row input {
+            flex: 2;
+        }
+
+        .manual-row select {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .semester-history {
+            margin-top: 30px;
+        }
+
+        .semester-history h4 {
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .history-table th, .history-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .history-table th {
+            background-color: #e8eaf6;
+            color: #1a237e;
+        }
+
+        .history-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .manual-row {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> Engineering CGPA & GPA Calculator</h1>
+            <p>Calculate your GPA and CGPA for various engineering departments based on KNCET UGR2020 curriculum</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> Calculator Settings</h2>
+                
+                <div class="form-group">
+                    <label for="department"><i class="fas fa-graduation-cap"></i> Select Department</label>
+                    <select id="department">
+                        <option value="">-- Select Department --</option>
+                        <option value="AD">Artificial Intelligence & Data Science</option>
+                        <option value="AGE">Agricultural Engineering</option>
+                        <option value="CIVIL">Civil Engineering</option>
+                        <option value="ECE">Electronics & Communication Engineering</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="CSE">Computer Science & Engineering</option>
+                        <option value="MECH">Mechanical Engineering</option>
+                        <option value="BME">Biomedical Engineering</option>
+                        <option value="EEE">Electrical & Electronics Engineering</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="semester"><i class="fas fa-calendar-alt"></i> Select Semester</label>
+                    <select id="semester">
+                        <option value="">-- Select Semester --</option>
+                        <option value="1">Semester I</option>
+                        <option value="2">Semester II</option>
+                        <option value="3">Semester III</option>
+                        <option value="4">Semester IV</option>
+                        <option value="5">Semester V</option>
+                        <option value="6">Semester VI</option>
+                        <option value="7">Semester VII</option>
+                        <option value="8">Semester VIII</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="calculation-mode"><i class="fas fa-cog"></i> Calculation Mode</label>
+                    <select id="calculation-mode">
+                        <option value="auto">Auto-load from Curriculum</option>
+                        <option value="manual">Manual Entry</option>
+                    </select>
+                </div>
+
+                <div class="grade-info">
+                    <h4><i class="fas fa-info-circle"></i> Grade Point Scale</h4>
+                    <p>Enter grades as O, A+, A, B+, B, C, D, or F</p>
+                    <table>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Points</th>
+                        </tr>
+                        <tr>
+                            <td>O (Outstanding)</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>A+ (Excellent)</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>A (Very Good)</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>B+ (Good)</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>B (Above Average)</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>C (Average)</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>D (Pass)</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>F (Fail)</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="calculate-btn">
+                        <i class="fas fa-calculator"></i> Calculate GPA
+                    </button>
+                    <button class="btn btn-secondary" id="reset-btn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <h2 class="panel-title"><i class="fas fa-book"></i> Subjects & Grades</h2>
+                
+                <div id="auto-subjects">
+                    <p id="subject-info">Select your department and semester to view subjects.</p>
+                    <div id="subjects-container"></div>
+                </div>
+
+                <div id="manual-subjects" class="hidden">
+                    <div class="manual-entry">
+                        <h4><i class="fas fa-edit"></i> Manual Subject Entry</h4>
+                        <p>Add your subjects, credits, and grades manually:</p>
+                        
+                        <div id="manual-entries">
+                            <div class="manual-row">
+                                <input type="text" class="manual-subject-name" placeholder="Subject Name">
+                                <input type="number" class="manual-subject-credit" placeholder="Credits" min="0" max="10" step="0.5">
+                                <select class="manual-subject-grade">
+                                    <option value="">Grade</option>
+                                    <option value="O">O (10)</option>
+                                    <option value="A+">A+ (9)</option>
+                                    <option value="A">A (8)</option>
+                                    <option value="B+">B+ (7)</option>
+                                    <option value="B">B (6)</option>
+                                    <option value="C">C (5)</option>
+                                    <option value="D">D (4)</option>
+                                    <option value="F">F (0)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="add-subject-btn">
+                                <i class="fas fa-plus"></i> Add Subject
+                            </button>
+                            <button class="btn btn-primary" id="calculate-manual-btn">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results" id="results-section">
+                    <h3><i class="fas fa-chart-line"></i> Results</h3>
+                    <div class="results-grid">
+                        <div class="result-box">
+                            <div class="result-label">Semester GPA</div>
+                            <div class="result-value" id="gpa-result">0.00</div>
+                            <div class="result-label">Grade Point Average</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-label">Total Credits</div>
+                            <div class="result-value" id="total-credits">0</div>
+                            <div class="result-label">This Semester</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-label">Overall CGPA</div>
+                            <div class="result-value" id="cgpa-result">0.00</div>
+                            <div class="result-label">Cumulative GPA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="semester-history">
+                    <h4><i class="fas fa-history"></i> Semester History</h4>
+                    <table class="history-table" id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Semester</th>
+                                <th>GPA</th>
+                                <th>Credits</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <!-- History rows will be added here -->
+                        </tbody>
+                    </table>
+                    <div class="button-group">
+                        <button class="btn btn-success" id="save-semester-btn">
+                            <i class="fas fa-save"></i> Save Current Semester
+                        </button>
+                        <button class="btn btn-secondary" id="clear-history-btn">
+                            <i class="fas fa-trash"></i> Clear History
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>CGPA & GPA Calculator for KNCET Engineering Departments | Based on UGR2020 Curriculum</p>
+            <p>Note: This calculator uses the grade points O=10, A+=9, A=8, B+=7, B=6, C=5, D=4, F=0</p>
+        </footer>
+    </div>
+
+    <script>
+        // Department course data from the PDFs - ALL DEPARTMENTS INCLUDED
+        const departmentData = {
+            "AD": {
+                name: "Artificial Intelligence & Data Science",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Digital Principles and System Design", code: "20EC304", category: "ESC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Basic Electrical, Electronics and Measurement Engineering", code: "20BE203", category: "ESC", credits: 3 },
+                        { name: "Python Programming", code: "20CS201", category: "PCC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Python Programming Laboratory", code: "20CS202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Discrete Mathematics", code: "20MA301", category: "BSC", credits: 4 },
+                        { name: "Data Structures and Algorithms Analysis", code: "20AD301", category: "POC", credits: 3 },
+                        { name: "Fundamentals of Data Science", code: "20AD302", category: "POC", credits: 3 },
+                        { name: "Database Management Systems", code: "20CS402", category: "POC", credits: 3 },
+                        { name: "Operating Systems", code: "20IT401", category: "POC", credits: 3 },
+                        { name: "Software Engineering", code: "20IT402", category: "POC", credits: 3 },
+                        { name: "Data Structures and Algorithms Analysis Laboratory", code: "20AD303L", category: "POC", credits: 1 },
+                        { name: "Fundamentals of Data Science Laboratory", code: "20AD304L", category: "POC", credits: 1 },
+                        { name: "Database Management Systems Laboratory", code: "20CS404L", category: "POC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Statistics", code: "20MA404", category: "BSC", credits: 4 },
+                        { name: "Artificial Intelligence", code: "20AD401", category: "PCC", credits: 3 },
+                        { name: "Computer Networks", code: "20CS401", category: "PCC", credits: 3 },
+                        { name: "Big Data Analytics", code: "20CS601", category: "PCC", credits: 3 },
+                        { name: "Java Programming", code: "20IT301", category: "PCC", credits: 4 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Artificial Intelligence Laboratory", code: "20AD402L", category: "PCC", credits: 1 },
+                        { name: "Data Analytics Laboratory", code: "20CS603L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Business Analytics", code: "20AD501", category: "PCC", credits: 3 },
+                        { name: "R Programming", code: "20AD502", category: "PCC", credits: 4 },
+                        { name: "Machine Learning Techniques", code: "20AD503", category: "PCC", credits: 3 },
+                        { name: "Text Analytics", code: "20AD504", category: "PCC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Machine Learning Laboratory", code: "20AD505L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-I", code: "20AD506L", category: "EEC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Basics of Computer Vision", code: "20AD601", category: "PCC", credits: 3 },
+                        { name: "Web Development Fundamentals", code: "20AD602", category: "PCC", credits: 3 },
+                        { name: "Cloud Computing Fundamentals and Applications", code: "20AD603", category: "PCC", credits: 4 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Web Technology Laboratory", code: "20AD604L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20AD605L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "AI in Robotics", code: "20AD701", category: "PCC", credits: 3 },
+                        { name: "Deep Learning Techniques", code: "20AD702", category: "PCC", credits: 3 },
+                        { name: "Data and Information Security", code: "20AD703", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Deep Learning Laboratory", code: "20AD704L", category: "PCC", credits: 1 },
+                        { name: "Data and Information Security Laboratory", code: "20AD705L", category: "PCC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20AD801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "CSE": {
+                name: "Computer Science & Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Applied Physics", code: "20PH201", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Python Programming", code: "20CS201", category: "PCC", credits: 3 },
+                        { name: "Basic Electrical, Electronics and Measurement Engineering", code: "20BE203", category: "ESC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Python Programming Laboratory", code: "20CS202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Discrete Mathematics", code: "20MA301", category: "BSC", credits: 4 },
+                        { name: "Data Structures", code: "20CS301", category: "PCC", credits: 3 },
+                        { name: "Computer Architecture", code: "20CS302", category: "PCC", credits: 3 },
+                        { name: "Digital Principles and System Design", code: "20EC304", category: "ESC", credits: 3 },
+                        { name: "Communication Engineering", code: "20EC307", category: "ESC", credits: 3 },
+                        { name: "Java Programming", code: "20IT301", category: "PCC", credits: 4 },
+                        { name: "Data Structures Laboratory", code: "20CS303L", category: "PCC", credits: 1 },
+                        { name: "Digital Laboratory", code: "20EC309L", category: "ESC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Queuing Theory", code: "20MA402", category: "BSC", credits: 4 },
+                        { name: "Computer Networks", code: "20CS401", category: "PCC", credits: 3 },
+                        { name: "Database Management Systems", code: "20CS402", category: "PCC", credits: 3 },
+                        { name: "Design and Analysis of Algorithms", code: "20CS403", category: "PCC", credits: 3 },
+                        { name: "Operating Systems", code: "20IT401", category: "PCC", credits: 3 },
+                        { name: "Software Engineering", code: "20IT402", category: "PCC", credits: 3 },
+                        { name: "Database Management Systems Laboratory", code: "20CS404L", category: "PCC", credits: 1 },
+                        { name: "Computer Networks Laboratory", code: "20CS405L", category: "PCC", credits: 1 },
+                        { name: "Operating Systems Laboratory", code: "20IT403L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Mobile Computing", code: "20CS501", category: "PCC", credits: 3 },
+                        { name: "Theory of Computation", code: "20CS502", category: "PCC", credits: 3 },
+                        { name: "Object Oriented Analysis and Design", code: "20CS503", category: "PCC", credits: 4 },
+                        { name: "Microprocessors and Microcontrollers", code: "20EC502", category: "PCC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "HSMC", credits: 0 },
+                        { name: "Mini Project-I", code: "20CS504L", category: "EEC", credits: 1 },
+                        { name: "Microprocessors and Microcontrollers Laboratory", code: "20EC505L", category: "PCC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Big Data Analytics", code: "20CS601", category: "PCC", credits: 3 },
+                        { name: "Compiler Design", code: "20CS602", category: "PCC", credits: 3 },
+                        { name: "Web Technology", code: "20IT502", category: "PCC", credits: 4 },
+                        { name: "Principles of Management", code: "20MG501", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Data Analytics Laboratory", code: "20CS603L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20CS604L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Cloud Computing", code: "20CS701", category: "PCC", credits: 3 },
+                        { name: "Cryptography and Network Security", code: "20IT701", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Cloud Computing Laboratory", code: "20CS702L", category: "PCC", credits: 1 },
+                        { name: "Security Laboratory", code: "20IT702L", category: "PCC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20CS801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "IT": {
+                name: "Information Technology",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Applied Physics", code: "20PH201", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Basic Electrical, Electronics and Measurement Engineering", code: "20BE203", category: "ESC", credits: 3 },
+                        { name: "Python Programming", code: "20CS201", category: "PCC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Python Programming Laboratory", code: "20CS202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Discrete Mathematics", code: "20MA301", category: "BSC", credits: 4 },
+                        { name: "Data Structures", code: "20CS301", category: "PCC", credits: 3 },
+                        { name: "Java Programming", code: "20IT301", category: "PCC", credits: 4 },
+                        { name: "Digital Principles and System Design", code: "20EC304", category: "ESC", credits: 3 },
+                        { name: "Analog and Digital Communication", code: "20EC305", category: "ESC", credits: 3 },
+                        { name: "Data Structures Laboratory", code: "20CS303L", category: "PCC", credits: 1 },
+                        { name: "Digital Laboratory", code: "20EC309L", category: "ESC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Statistics", code: "20MA404", category: "BSC", credits: 4 },
+                        { name: "Computer Architecture", code: "20CS302", category: "PCC", credits: 3 },
+                        { name: "Database Management Systems", code: "20CS402", category: "PCC", credits: 3 },
+                        { name: "Design and Analysis of Algorithms", code: "20CS403", category: "PCC", credits: 3 },
+                        { name: "Operating Systems", code: "20IT401", category: "PCC", credits: 3 },
+                        { name: "Software Engineering", code: "20IT402", category: "PCC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Database Management Systems Laboratory", code: "20CS404L", category: "PCC", credits: 1 },
+                        { name: "Operating Systems Laboratory", code: "20IT403L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Computer Networks", code: "20CS401", category: "PCC", credits: 3 },
+                        { name: "Data Warehousing And Data Mining", code: "20IT501", category: "PCC", credits: 3 },
+                        { name: "Web Technology", code: "20IT502", category: "PCC", credits: 4 },
+                        { name: "Microprocessors and Microcontrollers", code: "20EC502", category: "PCC", credits: 3 },
+                        { name: "Principles of Management", code: "20MG501", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Computer Networks Laboratory", code: "20CS405L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-I", code: "20IT503L", category: "EEC", credits: 1 },
+                        { name: "Microprocessors and Microcontrollers Laboratory", code: "20EC505L", category: "PCC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Mobile Computing", code: "20CS501", category: "PCC", credits: 3 },
+                        { name: "Big Data Analytics", code: "20CS601", category: "PCC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Data Analytics Laboratory", code: "20CS603L", category: "PCC", credits: 1 },
+                        { name: "Mobile Application Development Laboratory", code: "20IT602L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20IT603L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Cloud Computing", code: "20CS701", category: "PCC", credits: 3 },
+                        { name: "Cryptography and Network Security", code: "20IT701", category: "PCC", credits: 3 },
+                        { name: "Principles of Distributed Systems", code: "20IT703", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Cloud Computing Laboratory", code: "20CS702L", category: "PCC", credits: 1 },
+                        { name: "Security Laboratory", code: "20IT702L", category: "PCC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20IT801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "ECE": {
+                name: "Electronics & Communication Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Applied Physics", code: "20PH201", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Semiconductor Devices", code: "20EC201", category: "ESC", credits: 3 },
+                        { name: "Electric Circuit Analysis", code: "20EE201", category: "ESC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Circuits and Devices Laboratory", code: "20EC202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Electronic Circuits-I", code: "20EC301", category: "PCC", credits: 3 },
+                        { name: "Digital Electronics", code: "20EC302", category: "PCC", credits: 3 },
+                        { name: "Signals and Systems", code: "20EC303", category: "PCC", credits: 4 },
+                        { name: "C++ and Data Structures", code: "20IT302", category: "ESC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "HSMC", credits: 0 },
+                        { name: "Analog and Digital Circuits Laboratory", code: "20EC308L", category: "PCC", credits: 1 },
+                        { name: "C++ and Data Structures Laboratory", code: "20IT303L", category: "ESC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Random Processes", code: "20MA403", category: "BSC", credits: 4 },
+                        { name: "Electronic Circuits-II", code: "20EC401", category: "PCC", credits: 3 },
+                        { name: "Electromagnetic Fields", code: "20EE303", category: "ESC", credits: 3 },
+                        { name: "Linear Integrated Circuits", code: "20EC402", category: "PCC", credits: 3 },
+                        { name: "Communication Theory", code: "20EC403", category: "PCC", credits: 3 },
+                        { name: "Control System Engineering", code: "20EC404", category: "PCC", credits: 3 },
+                        { name: "Electronic Circuits-II Laboratory", code: "20EC405L", category: "PCC", credits: 1 },
+                        { name: "Linear Integrated Circuits Laboratory", code: "20EC406L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Digital Communication", code: "20EC501", category: "PCC", credits: 4 },
+                        { name: "Microprocessors and Microcontrollers", code: "20EC502", category: "PCC", credits: 3 },
+                        { name: "Transmission Lines and Wave Guides", code: "20EC503", category: "PCC", credits: 3 },
+                        { name: "Digital Signal Processing", code: "20EC504", category: "PCC", credits: 4 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "HSC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Microprocessors and Microcontrollers Laboratory", code: "20EC505L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-I", code: "20EC506L", category: "EEC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Antenna and Wave Propagation", code: "20EC601", category: "PCC", credits: 3 },
+                        { name: "VLSI Design", code: "20EC602", category: "PCC", credits: 3 },
+                        { name: "Computer Networks", code: "20CS401", category: "ESC", credits: 3 },
+                        { name: "Principles of Management", code: "20MG501", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "VLSI Design Laboratory", code: "20EC603L", category: "PCC", credits: 1 },
+                        { name: "Networks Laboratory", code: "20EC604L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20EC605L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Embedded and Real Time Systems", code: "20EC701", category: "PCC", credits: 3 },
+                        { name: "Microwave Engineering and Optical Communication", code: "20EC702", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Embedded Laboratory", code: "20EC703L", category: "PCC", credits: 1 },
+                        { name: "Microwave and Optical Communication Laboratory", code: "20EC704L", category: "PCC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20EC801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "EEE": {
+                name: "Electrical & Electronics Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Applied Physics", code: "20PH201", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Basic Civil and Mechanical Engineering", code: "20CE201", category: "ESC", credits: 3 },
+                        { name: "Electric Circuit Analysis", code: "20EE201", category: "PCC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Electric Circuits Laboratory", code: "20EE202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Analog Electronics", code: "20EE301", category: "ESC", credits: 3 },
+                        { name: "Electrical Machines-I", code: "20EE302", category: "PCC", credits: 3 },
+                        { name: "Electromagnetic Fields", code: "20EE303", category: "PCC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Object Oriented Programming", code: "20CS304", category: "ESC", credits: 4 },
+                        { name: "Analog Electronics Laboratory", code: "20EE304L", category: "ESC", credits: 1 },
+                        { name: "Electrical Machines Laboratory-1", code: "20EE305L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Numerical Methods", code: "20MA401", category: "BSC", credits: 4 },
+                        { name: "Electrical Machines-II", code: "20EE401", category: "PCC", credits: 3 },
+                        { name: "Transmission and Distribution", code: "20EE402", category: "PCC", credits: 3 },
+                        { name: "Measurements and Instrumentation", code: "20EE403", category: "PCC", credits: 4 },
+                        { name: "Digital Electronics", code: "20EC302", category: "PCC", credits: 3 },
+                        { name: "Linear Integrated Circuits", code: "20EC402", category: "PCC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Electrical Machines Laboratory-II", code: "20EE404L", category: "PCC", credits: 1 },
+                        { name: "Linear Integrated Circuits Laboratory", code: "20EC406L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Power System Analysis", code: "20EE501", category: "PCC", credits: 3 },
+                        { name: "Control Systems", code: "20EE502", category: "PCC", credits: 4 },
+                        { name: "Power Electronics", code: "20EE503", category: "PCC", credits: 3 },
+                        { name: "Microprocessors and Microcontrollers", code: "20EC502", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Power Electronics Laboratory", code: "20EE504L", category: "PCC", credits: 1 },
+                        { name: "Microprocessors and Microcontrollers Laboratory", code: "20EC505L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-I", code: "20EE505L", category: "EEC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Power System Operation and Control", code: "20EE601", category: "PCC", credits: 4 },
+                        { name: "Protection and Switchgear", code: "20EE602", category: "PCC", credits: 3 },
+                        { name: "Renewable Energy Sources", code: "20EE603", category: "PCC", credits: 3 },
+                        { name: "Discrete Time Signal Processing", code: "20EE604", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Renewable Energy Technology Laboratory", code: "20EE605L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20EE606L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Embedded Systems and Industrial Automation", code: "20EE701", category: "ESC", credits: 3 },
+                        { name: "High Voltage Engineering", code: "20EE703", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Embedded Systems and Industrial Automation Laboratory", code: "20EE702L", category: "ESC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VII", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20EE801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "MECH": {
+                name: "Mechanical Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Materials Science", code: "20PH202", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Engineering Mechanics", code: "20BE201", category: "ESC", credits: 4 },
+                        { name: "Basic Electrical, Electronics and Instrumentation Engineering", code: "20BE204", category: "ESC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Drafting and Modelling Laboratory", code: "20ME201L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Strength of Materials", code: "20ME301", category: "PCC", credits: 3 },
+                        { name: "Engineering Thermodynamics", code: "20ME302", category: "PCC", credits: 4 },
+                        { name: "Manufacturing Process - I", code: "20ME303", category: "PCC", credits: 3 },
+                        { name: "Engineering Metallurgy", code: "20ME304", category: "PCC", credits: 3 },
+                        { name: "Electrical Drives and Controls", code: "20EE306", category: "ESC", credits: 4 },
+                        { name: "Materials Testing and Metallurgy Laboratory", code: "20ME305L", category: "PCC", credits: 1 },
+                        { name: "Manufacturing Process Laboratory - I", code: "20ME306L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Numerical Methods", code: "20MA401", category: "BSC", credits: 4 },
+                        { name: "Fluid Mechanics and Machinery", code: "20ME401", category: "PCC", credits: 3 },
+                        { name: "Thermal Engineering", code: "20ME402", category: "PCC", credits: 3 },
+                        { name: "Manufacturing Process - II", code: "20ME403", category: "PCC", credits: 3 },
+                        { name: "Kinematics of Machinery", code: "20ME404", category: "PCC", credits: 3 },
+                        { name: "Thermal Engineering Laboratory", code: "20ME405L", category: "PCC", credits: 1 },
+                        { name: "Fluid Mechanics and Machinery Laboratory", code: "20ME406L", category: "PCC", credits: 1 },
+                        { name: "Manufacturing Process Laboratory - II", code: "20ME407L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Heat and Mass Transfer", code: "20ME501", category: "PCC", credits: 4 },
+                        { name: "Dynamics of Machines", code: "20ME502", category: "PCC", credits: 4 },
+                        { name: "Design of Machine Elements", code: "20ME503", category: "PCC", credits: 3 },
+                        { name: "CAD/CAM", code: "20ME504", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Heat Transfer Laboratory", code: "20ME505L", category: "PCC", credits: 1 },
+                        { name: "CAD / CAM Laboratory", code: "20ME506L", category: "PCC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Metrology and Measurements", code: "20ME601", category: "PCC", credits: 4 },
+                        { name: "Design of Transmission Systems", code: "20ME602", category: "PCC", credits: 3 },
+                        { name: "Finite Element Analysis", code: "20ME603", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Computer Aided Analysis Laboratory", code: "20ME604L", category: "PCC", credits: 1 },
+                        { name: "Mini Project - I", code: "20ME605L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Total Quality Management", code: "20MG701", category: "HSMC", credits: 3 },
+                        { name: "Power Plant Engineering", code: "20ME701", category: "PCC", credits: 3 },
+                        { name: "Mechatronics", code: "20ME702", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Mechatronics Laboratory", code: "20ME703L", category: "PCC", credits: 1 },
+                        { name: "Mini Project - II", code: "20ME704L", category: "EEC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20ME801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "BME": {
+                name: "Biomedical Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Applied Physics", code: "20PH201", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Semiconductor Devices", code: "20EC201", category: "ESC", credits: 3 },
+                        { name: "Electric Circuit Analysis", code: "20EE201", category: "ESC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Circuits and Devices Laboratory", code: "20EC202L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Anatomy and Human Physiology", code: "20BM301", category: "PCC", credits: 3 },
+                        { name: "Digital Electronics", code: "20EC302", category: "PCC", credits: 3 },
+                        { name: "Signals and Systems", code: "20EC303", category: "PCC", credits: 4 },
+                        { name: "Electron Devices and Circuits", code: "20EC306", category: "ESC", credits: 4 },
+                        { name: "C++ and Data Structures", code: "20IT302", category: "ESC", credits: 3 },
+                        { name: "Human Physiology Laboratory", code: "20BM302L", category: "PCC", credits: 1 },
+                        { name: "C++ and Data Structures Laboratory", code: "20IT303L", category: "ESC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Statistics", code: "20MA404", category: "BSC", credits: 4 },
+                        { name: "Pathology and Microbiology", code: "20BM401", category: "PCC", credits: 3 },
+                        { name: "Sensors and Measurements", code: "20BM402", category: "PCC", credits: 4 },
+                        { name: "Linear Integrated Circuits", code: "20EC402", category: "PCC", credits: 3 },
+                        { name: "Analog and Digital Communication", code: "20EC305", category: "PCC", credits: 3 },
+                        { name: "Basics of Electrical Engineering", code: "20EE405", category: "ESC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Pathology and Microbiology Laboratory", code: "20BM403L", category: "PCC", credits: 1 },
+                        { name: "Integrated Electronics Laboratory", code: "20EC407L", category: "PCC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Biocontrol Systems", code: "20BM501", category: "PCC", credits: 3 },
+                        { name: "Biomedical Instrumentation", code: "20BM502", category: "PCC", credits: 3 },
+                        { name: "Digital Signal Processing", code: "20EC504", category: "PCC", credits: 4 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Biomedical Instrumentation Laboratory", code: "20BM503L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-I", code: "20BM504L", category: "EEC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Diagnostic and Therapeutic Equipments", code: "20BM601", category: "PCC", credits: 3 },
+                        { name: "Radiological Equipments", code: "20BM602", category: "PCC", credits: 3 },
+                        { name: "Hospital Management", code: "20BM603", category: "PCC", credits: 3 },
+                        { name: "Microprocessors and Microcontrollers", code: "20EC502", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Microprocessors and Microcontrollers Laboratory", code: "20EC505L", category: "PCC", credits: 1 },
+                        { name: "Diagnostic and Therapeutic Equipment Laboratory", code: "20BM604L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20BM605L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Digital Image Processing", code: "20BM701", category: "PCC", credits: 3 },
+                        { name: "Rehabilitation Engineering", code: "20BM702", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Digital Image Processing Laboratory", code: "20BM703L", category: "PCC", credits: 1 },
+                        { name: "Hospital Training", code: "20BM704L", category: "EEC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20BM801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "CIVIL": {
+                name: "Civil Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Material Science", code: "20PH202", category: "BSC", credits: 3 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Engineering Mechanics", code: "20BE201", category: "PCC", credits: 4 },
+                        { name: "Basic Electrical and Electronics Engineering", code: "20BE202", category: "ESC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Building Drafting and Modeling Laboratory", code: "20CE201L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Strength of Materials-I", code: "20CE301", category: "PCC", credits: 3 },
+                        { name: "Mechanics of Fluids", code: "20CE302", category: "PCC", credits: 3 },
+                        { name: "Surveying", code: "20CE303", category: "PCC", credits: 3 },
+                        { name: "Construction Materials", code: "20CE304", category: "PCC", credits: 4 },
+                        { name: "Engineering Geology", code: "20CE305", category: "ESC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "HSMC", credits: 0 },
+                        { name: "Surveying Laboratory", code: "20CE306L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Numerical Methods", code: "20MA401", category: "BSC", credits: 4 },
+                        { name: "Strength of Materials-II", code: "20CE401", category: "PCC", credits: 3 },
+                        { name: "Applied Hydraulic Engineering", code: "20CE402", category: "PCC", credits: 3 },
+                        { name: "Construction Techniques, Equipments and Practice", code: "20CE403", category: "PCC", credits: 3 },
+                        { name: "Soil Mechanics", code: "20CE404", category: "PCC", credits: 3 },
+                        { name: "Highway Engineering", code: "20CE405", category: "PCC", credits: 3 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 },
+                        { name: "Strength of Materials Laboratory", code: "20CE406L", category: "PCC", credits: 1 },
+                        { name: "Hydraulic Engineering Laboratory", code: "20CE407L", category: "PCC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Design of Reinforced Concrete Elements", code: "20CE501", category: "PCC", credits: 4 },
+                        { name: "Structural Analysis-I", code: "20CE502", category: "PCC", credits: 3 },
+                        { name: "Railways, Airports and Harbour Engineering", code: "20CE503", category: "PCC", credits: 3 },
+                        { name: "Foundation Engineering", code: "20CE504", category: "PCC", credits: 3 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 }
+                    ],
+                    6: [
+                        { name: "Design of Steel Structures", code: "20CE601", category: "PCC", credits: 3 },
+                        { name: "Structural Analysis-II", code: "20CE602", category: "PCC", credits: 3 },
+                        { name: "Water Supply and Waste Water Engineering", code: "20CE603", category: "PCC", credits: 3 },
+                        { name: "Estimation Costing and Valuation Engineering", code: "20CE604", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Structural Design and Drawing", code: "20CE605L", category: "PCC", credits: 1 },
+                        { name: "Water Supply and Waste Water Engineering Laboratory", code: "20CE606L", category: "PCC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 },
+                        { name: "Mini Project-I", code: "20CE607L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Concrete Technology", code: "20CE701", category: "PCC", credits: 3 },
+                        { name: "Principles of Management", code: "20MG501", category: "HSMC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Mini Project-II", code: "20CE702L", category: "EEC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20CE801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            },
+            "AGE": {
+                name: "Agricultural Engineering",
+                semesters: {
+                    1: [
+                        { name: "Technical English-I", code: "20EN101", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-I", code: "20MA101", category: "BSC", credits: 4 },
+                        { name: "Engineering Physics", code: "20PH101", category: "BSC", credits: 3 },
+                        { name: "Engineering Chemistry", code: "20CY101", category: "BSC", credits: 3 },
+                        { name: "Structured Programming Using C", code: "20GE101", category: "ESC", credits: 3 },
+                        { name: "Engineering Graphics", code: "20GE102", category: "ESC", credits: 3 },
+                        { name: "Physics and Chemistry Laboratory", code: "20BS101L", category: "BSC", credits: 1 },
+                        { name: "Structured Programming Using C Laboratory", code: "20GE103L", category: "ESC", credits: 1 },
+                        { name: "English for Effective Communication", code: "20EEC101L", category: "EEC", credits: 1 }
+                    ],
+                    2: [
+                        { name: "Technical English-II", code: "20EN201", category: "HSMC", credits: 3 },
+                        { name: "Mathematics-II", code: "20MA201", category: "BSC", credits: 4 },
+                        { name: "Environmental Science", code: "20BS201", category: "HSMC", credits: 3 },
+                        { name: "Basic Electrical and Electronics Engineering", code: "20BE202", category: "ESC", credits: 3 },
+                        { name: "Principles and Practices of Crop Production", code: "20AG201", category: "PCC", credits: 3 },
+                        { name: "Fluid Mechanics and Hydraulics", code: "20AG202", category: "PCC", credits: 3 },
+                        { name: "Engineering Practices Laboratory", code: "20GE201L", category: "ESC", credits: 1 },
+                        { name: "Crop Husbandry Field Laboratory", code: "20AG203L", category: "PCC", credits: 1 },
+                        { name: "Fluid Mechanics and Machinery Laboratory", code: "20ME406L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills", code: "20EEC201L", category: "EEC", credits: 1 }
+                    ],
+                    3: [
+                        { name: "Transforms and Partial Differential Equations", code: "20MA302", category: "BSC", credits: 4 },
+                        { name: "Thermodynamics and Heat Transfer", code: "20AG301", category: "PCC", credits: 3 },
+                        { name: "Strength of Materials and Engineering Mechanics", code: "20AG302", category: "PCC", credits: 3 },
+                        { name: "Surveying", code: "20CE303", category: "PCC", credits: 3 },
+                        { name: "Electronics and Microprocessors", code: "20EC308", category: "ESC", credits: 4 },
+                        { name: "Universal Human Values 2: Understanding Harmony", code: "20MC002", category: "MC", credits: 3 },
+                        { name: "Strength of Materials Laboratory", code: "20CE406L", category: "PCC", credits: 1 },
+                        { name: "Surveying Laboratory", code: "20CE306L", category: "PCC", credits: 1 },
+                        { name: "Soft Skills Development", code: "20EEC301L", category: "EEC", credits: 1 }
+                    ],
+                    4: [
+                        { name: "Probability and Statistics", code: "20MA404", category: "BSC", credits: 4 },
+                        { name: "Unit Operations in Agricultural Processing", code: "20AG401", category: "PCC", credits: 3 },
+                        { name: "Farm Tractors", code: "20AG402", category: "PCC", credits: 3 },
+                        { name: "Theory of Machine and Machine Elements Design", code: "20AG403", category: "PCC", credits: 3 },
+                        { name: "Soil Science and Engineering", code: "20AG404", category: "PCC", credits: 3 },
+                        { name: "Introduction to Sensors and Actuators", code: "20EC407", category: "ESC", credits: 3 },
+                        { name: "Constitution of India", code: "20MC003", category: "MC", credits: 0 },
+                        { name: "Soil Science Laboratory", code: "20AG405L", category: "PCC", credits: 1 },
+                        { name: "Sensors and Actuators Laboratory", code: "20EC408L", category: "ESC", credits: 1 },
+                        { name: "Life Skills and Personality Development", code: "20EEC401L", category: "EEC", credits: 1 }
+                    ],
+                    5: [
+                        { name: "Irrigation and Drainage Engineering", code: "20AG501", category: "PCC", credits: 3 },
+                        { name: "Farm Machinery and Equipments", code: "20AG502", category: "PCC", credits: 3 },
+                        { name: "Refrigeration and Air Conditioning", code: "20ME505PE", category: "PCC", credits: 3 },
+                        { name: "Embedded and Real Time Systems", code: "20EC701", category: "ESC", credits: 3 },
+                        { name: "Professional Elective-I", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-I", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Irrigation Field Laboratory", code: "20AG503L", category: "PCC", credits: 1 },
+                        { name: "Embedded Laboratory", code: "20EC703L", category: "ESC", credits: 1 },
+                        { name: "Professional Skills Development", code: "20EEC501L", category: "EEC", credits: 1 }
+                    ],
+                    6: [
+                        { name: "Groundwater and Well Engineering", code: "20AG601", category: "PCC", credits: 3 },
+                        { name: "Post Harvest Technology", code: "20AG602", category: "PCC", credits: 4 },
+                        { name: "Soil and Water Conservation Engineering", code: "20AG603", category: "PCC", credits: 3 },
+                        { name: "IoT in Agricultural Engineering", code: "20EC606", category: "ESC", credits: 3 },
+                        { name: "Professional Elective-II", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Internet of Things Laboratory", code: "20EC607L", category: "ESC", credits: 1 },
+                        { name: "Mini Project-I", code: "20AG604L", category: "EEC", credits: 1 },
+                        { name: "Employability Skills", code: "20EEC601L", category: "EEC", credits: 1 }
+                    ],
+                    7: [
+                        { name: "Remote Sensing and Geographical Information System", code: "20AG701", category: "PCC", credits: 3 },
+                        { name: "Renewable Energy in Agricultural Engineering", code: "20AG702", category: "PCC", credits: 3 },
+                        { name: "Professional Elective-III", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-IV", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Open Elective-II", code: "OEC", category: "OEC", credits: 3 },
+                        { name: "Remote Sensing and GIS Laboratory", code: "20AG703L", category: "PCC", credits: 1 },
+                        { name: "Renewable Energy Laboratory", code: "20AG704L", category: "PCC", credits: 1 },
+                        { name: "Mini Project-II", code: "20AG705L", category: "EEC", credits: 1 },
+                        { name: "Industrial Training", code: "20AG706L", category: "EEC", credits: 1 }
+                    ],
+                    8: [
+                        { name: "Professional Elective-V", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Professional Elective-VI", code: "PEC", category: "PEC", credits: 3 },
+                        { name: "Project Work", code: "20AG801L", category: "EEC", credits: 10 }
+                    ]
+                }
+            }
+        };
+
+        // Grade point mapping
+        const gradePoints = {
+            "O": 10,
+            "A+": 9,
+            "A": 8,
+            "B+": 7,
+            "B": 6,
+            "C": 5,
+            "D": 4,
+            "F": 0
+        };
+
+        // Initialize semester history from localStorage
+        let semesterHistory = JSON.parse(localStorage.getItem('semesterHistory')) || [];
+
+        // DOM Elements
+        const departmentSelect = document.getElementById('department');
+        const semesterSelect = document.getElementById('semester');
+        const calculationModeSelect = document.getElementById('calculation-mode');
+        const subjectsContainer = document.getElementById('subjects-container');
+        const subjectInfo = document.getElementById('subject-info');
+        const autoSubjectsDiv = document.getElementById('auto-subjects');
+        const manualSubjectsDiv = document.getElementById('manual-subjects');
+        const manualEntriesDiv = document.getElementById('manual-entries');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const calculateManualBtn = document.getElementById('calculate-manual-btn');
+        const addSubjectBtn = document.getElementById('add-subject-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const saveSemesterBtn = document.getElementById('save-semester-btn');
+        const clearHistoryBtn = document.getElementById('clear-history-btn');
+        const gpaResult = document.getElementById('gpa-result');
+        const cgpaResult = document.getElementById('cgpa-result');
+        const totalCredits = document.getElementById('total-credits');
+        const historyBody = document.getElementById('history-body');
+        const resultsSection = document.getElementById('results-section');
+
+        // Event Listeners
+        departmentSelect.addEventListener('change', loadSubjects);
+        semesterSelect.addEventListener('change', loadSubjects);
+        calculationModeSelect.addEventListener('change', toggleCalculationMode);
+        calculateBtn.addEventListener('click', calculateGPA);
+        calculateManualBtn.addEventListener('click', calculateManualGPA);
+        addSubjectBtn.addEventListener('click', addManualSubjectRow);
+        resetBtn.addEventListener('click', resetCalculator);
+        saveSemesterBtn.addEventListener('click', saveCurrentSemester);
+        clearHistoryBtn.addEventListener('click', clearHistory);
+
+        // Load subjects based on selected department and semester
+        function loadSubjects() {
+            const dept = departmentSelect.value;
+            const semester = semesterSelect.value;
+            
+            if (!dept || !semester) {
+                subjectInfo.textContent = "Select your department and semester to view subjects.";
+                subjectsContainer.innerHTML = '';
+                return;
+            }
+            
+            const deptData = departmentData[dept];
+            
+            if (!deptData) {
+                subjectInfo.textContent = "Department data not available.";
+                subjectsContainer.innerHTML = '';
+                return;
+            }
+            
+            const semesterData = deptData.semesters[semester];
+            
+            if (!semesterData || semesterData.length === 0) {
+                subjectInfo.textContent = `No subjects found for ${deptData.name} - Semester ${semester}`;
+                subjectsContainer.innerHTML = '';
+                return;
+            }
+            
+            subjectInfo.textContent = `${deptData.name} - Semester ${semester} Subjects`;
+            subjectsContainer.innerHTML = '';
+            
+            semesterData.forEach(subject => {
+                const subjectRow = document.createElement('div');
+                subjectRow.className = 'subject-row';
+                
+                subjectRow.innerHTML = `
+                    <div class="subject-name">${subject.name} (${subject.code})</div>
+                    <div class="subject-credit">${subject.credits}</div>
+                    <div class="subject-grade">
+                        <select class="grade-select" data-subject="${subject.code}">
+                            <option value="">Select Grade</option>
+                            <option value="O">O</option>
+                            <option value="A+">A+</option>
+                            <option value="A">A</option>
+                            <option value="B+">B+</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                `;
+                
+                subjectsContainer.appendChild(subjectRow);
+            });
+            
+            // Show results section
+            resultsSection.classList.remove('hidden');
+        }
+
+        // Toggle between auto and manual calculation modes
+        function toggleCalculationMode() {
+            const mode = calculationModeSelect.value;
+            
+            if (mode === 'auto') {
+                autoSubjectsDiv.classList.remove('hidden');
+                manualSubjectsDiv.classList.add('hidden');
+                loadSubjects(); // Reload subjects if department and semester are selected
+            } else {
+                autoSubjectsDiv.classList.add('hidden');
+                manualSubjectsDiv.classList.remove('hidden');
+                subjectInfo.textContent = "Manual Subject Entry Mode";
+            }
+        }
+
+        // Calculate GPA for auto-loaded subjects
+        function calculateGPA() {
+            const dept = departmentSelect.value;
+            const semester = semesterSelect.value;
+            
+            if (!dept || !semester) {
+                alert('Please select department and semester first.');
+                return;
+            }
+            
+            const deptData = departmentData[dept];
+            const semesterData = deptData.semesters[semester];
+            const gradeSelects = document.querySelectorAll('.grade-select');
+            
+            let totalGradePoints = 0;
+            let totalCreditsValue = 0;
+            let allGradesSelected = true;
+            
+            gradeSelects.forEach((select, index) => {
+                const grade = select.value;
+                const subject = semesterData[index];
+                
+                if (!grade) {
+                    allGradesSelected = false;
+                    select.style.borderColor = 'red';
+                } else {
+                    select.style.borderColor = '';
+                    const gradePoint = gradePoints[grade];
+                    totalGradePoints += gradePoint * subject.credits;
+                    totalCreditsValue += subject.credits;
+                }
+            });
+            
+            if (!allGradesSelected) {
+                alert('Please select grades for all subjects.');
+                return;
+            }
+            
+            const gpa = totalGradePoints / totalCreditsValue;
+            
+            // Update UI
+            gpaResult.textContent = gpa.toFixed(2);
+            totalCredits.textContent = totalCreditsValue;
+            
+            // Calculate CGPA from history
+            calculateCGPA();
+        }
+
+        // Calculate GPA for manually entered subjects
+        function calculateManualGPA() {
+            const subjectNames = document.querySelectorAll('.manual-subject-name');
+            const subjectCredits = document.querySelectorAll('.manual-subject-credit');
+            const subjectGrades = document.querySelectorAll('.manual-subject-grade');
+            
+            let totalGradePoints = 0;
+            let totalCreditsValue = 0;
+            let allFieldsValid = true;
+            
+            for (let i = 0; i < subjectNames.length; i++) {
+                const name = subjectNames[i].value.trim();
+                const credit = parseFloat(subjectCredits[i].value);
+                const grade = subjectGrades[i].value;
+                
+                if (!name || isNaN(credit) || credit <= 0 || !grade) {
+                    allFieldsValid = false;
+                    
+                    if (!name) subjectNames[i].style.borderColor = 'red';
+                    if (isNaN(credit) || credit <= 0) subjectCredits[i].style.borderColor = 'red';
+                    if (!grade) subjectGrades[i].style.borderColor = 'red';
+                } else {
+                    subjectNames[i].style.borderColor = '';
+                    subjectCredits[i].style.borderColor = '';
+                    subjectGrades[i].style.borderColor = '';
+                    
+                    const gradePoint = gradePoints[grade];
+                    totalGradePoints += gradePoint * credit;
+                    totalCreditsValue += credit;
+                }
+            }
+            
+            if (!allFieldsValid) {
+                alert('Please fill all fields with valid values.');
+                return;
+            }
+            
+            if (totalCreditsValue === 0) {
+                alert('Total credits must be greater than 0.');
+                return;
+            }
+            
+            const gpa = totalGradePoints / totalCreditsValue;
+            
+            // Update UI
+            gpaResult.textContent = gpa.toFixed(2);
+            totalCredits.textContent = totalCreditsValue;
+            
+            // Calculate CGPA from history
+            calculateCGPA();
+        }
+
+        // Calculate overall CGPA from semester history
+        function calculateCGPA() {
+            if (semesterHistory.length === 0) {
+                cgpaResult.textContent = "0.00";
+                return;
+            }
+            
+            let totalWeightedPoints = 0;
+            let totalHistoryCredits = 0;
+            
+            semesterHistory.forEach(semester => {
+                totalWeightedPoints += semester.gpa * semester.credits;
+                totalHistoryCredits += semester.credits;
+            });
+            
+            // Add current semester if calculated
+            const currentGPA = parseFloat(gpaResult.textContent);
+            const currentCredits = parseInt(totalCredits.textContent);
+            
+            if (currentGPA > 0 && currentCredits > 0) {
+                totalWeightedPoints += currentGPA * currentCredits;
+                totalHistoryCredits += currentCredits;
+            }
+            
+            const cgpa = totalWeightedPoints / totalHistoryCredits;
+            cgpaResult.textContent = cgpa.toFixed(2);
+        }
+
+        // Add a new row for manual subject entry
+        function addManualSubjectRow() {
+            const newRow = document.createElement('div');
+            newRow.className = 'manual-row';
+            
+            newRow.innerHTML = `
+                <input type="text" class="manual-subject-name" placeholder="Subject Name">
+                <input type="number" class="manual-subject-credit" placeholder="Credits" min="0" max="10" step="0.5">
+                <select class="manual-subject-grade">
+                    <option value="">Grade</option>
+                    <option value="O">O (10)</option>
+                    <option value="A+">A+ (9)</option>
+                    <option value="A">A (8)</option>
+                    <option value="B+">B+ (7)</option>
+                    <option value="B">B (6)</option>
+                    <option value="C">C (5)</option>
+                    <option value="D">D (4)</option>
+                    <option value="F">F (0)</option>
+                </select>
+            `;
+            
+            manualEntriesDiv.appendChild(newRow);
+        }
+
+        // Save current semester to history
+        function saveCurrentSemester() {
+            const dept = departmentSelect.value;
+            const semester = semesterSelect.value;
+            const gpa = parseFloat(gpaResult.textContent);
+            const credits = parseInt(totalCredits.textContent);
+            
+            if (!dept || !semester || gpa === 0 || credits === 0) {
+                alert('Please calculate GPA for current semester before saving.');
+                return;
+            }
+            
+            const deptName = departmentData[dept] ? departmentData[dept].name : "Unknown Department";
+            
+            // Check if semester already exists in history
+            const existingIndex = semesterHistory.findIndex(item => 
+                item.department === dept && item.semester === parseInt(semester)
+            );
+            
+            const semesterRecord = {
+                department: dept,
+                departmentName: deptName,
+                semester: parseInt(semester),
+                gpa: gpa,
+                credits: credits,
+                timestamp: new Date().toISOString()
+            };
+            
+            if (existingIndex !== -1) {
+                semesterHistory[existingIndex] = semesterRecord;
+            } else {
+                semesterHistory.push(semesterRecord);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('semesterHistory', JSON.stringify(semesterHistory));
+            
+            // Update history display
+            updateHistoryDisplay();
+            
+            // Recalculate CGPA
+            calculateCGPA();
+            
+            alert(`Semester ${semester} saved to history!`);
+        }
+
+        // Update the history table display
+        function updateHistoryDisplay() {
+            historyBody.innerHTML = '';
+            
+            if (semesterHistory.length === 0) {
+                historyBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">No semester history saved yet.</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Sort by semester
+            semesterHistory.sort((a, b) => a.semester - b.semester);
+            
+            semesterHistory.forEach((record, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${record.departmentName} - Semester ${record.semester}</td>
+                    <td>${record.gpa.toFixed(2)}</td>
+                    <td>${record.credits}</td>
+                    <td>
+                        <button class="btn-small" onclick="deleteHistoryItem(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                historyBody.appendChild(row);
+            });
+        }
+
+        // Delete a history item
+        window.deleteHistoryItem = function(index) {
+            if (confirm('Are you sure you want to delete this semester record?')) {
+                semesterHistory.splice(index, 1);
+                localStorage.setItem('semesterHistory', JSON.stringify(semesterHistory));
+                updateHistoryDisplay();
+                calculateCGPA();
+            }
+        };
+
+        // Clear all history
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all semester history?')) {
+                semesterHistory = [];
+                localStorage.removeItem('semesterHistory');
+                updateHistoryDisplay();
+                calculateCGPA();
+            }
+        }
+
+        // Reset calculator
+        function resetCalculator() {
+            departmentSelect.value = '';
+            semesterSelect.value = '';
+            calculationModeSelect.value = 'auto';
+            
+            subjectsContainer.innerHTML = '';
+            subjectInfo.textContent = "Select your department and semester to view subjects.";
+            
+            manualEntriesDiv.innerHTML = `
+                <div class="manual-row">
+                    <input type="text" class="manual-subject-name" placeholder="Subject Name">
+                    <input type="number" class="manual-subject-credit" placeholder="Credits" min="0" max="10" step="0.5">
+                    <select class="manual-subject-grade">
+                        <option value="">Grade</option>
+                        <option value="O">O (10)</option>
+                        <option value="A+">A+ (9)</option>
+                        <option value="A">A (8)</option>
+                        <option value="B+">B+ (7)</option>
+                        <option value="B">B (6)</option>
+                        <option value="C">C (5)</option>
+                        <option value="D">D (4)</option>
+                        <option value="F">F (0)</option>
+                    </select>
+                </div>
+            `;
+            
+            gpaResult.textContent = "0.00";
+            cgpaResult.textContent = "0.00";
+            totalCredits.textContent = "0";
+            
+            toggleCalculationMode();
+        }
+
+        // Initialize the calculator
+        function init() {
+            updateHistoryDisplay();
+            toggleCalculationMode();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
