@@ -153,41 +153,46 @@
             font-weight: 600;
         }
 
-        /* UPDATED: Improved Subject row styling for mobile */
+        /* UPDATED: Card-style Subject row styling - no borders */
         .subject-row {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            padding: 15px;
+            background-color: #f8f9ff;
+            border-radius: 8px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            transition: all 0.3s ease;
         }
 
         .subject-row:hover {
-            background-color: #f9f9ff;
-            border-radius: 5px;
-            padding: 12px 10px;
+            background-color: #e8eaf6;
+            box-shadow: 0 2px 8px rgba(57, 73, 171, 0.15);
         }
 
         .subject-name-container {
             flex: 1;
-            min-width: 0; /* Important for text truncation */
+            min-width: 0;
+            flex-basis: 100%; /* Full width on mobile */
         }
 
         .subject-name {
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: 600;
+            font-size: 1rem;
             display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.4;
         }
 
         .subject-code {
             color: #666;
             font-size: 0.8rem;
             display: block;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .subject-controls {
@@ -196,6 +201,7 @@
             gap: 12px;
             flex-shrink: 0;
             margin-left: auto;
+            flex-basis: auto;
         }
 
         .credit-badge {
@@ -434,7 +440,7 @@
             line-height: 1.5;
         }
 
-        /* Mobile-specific adjustments - IMPROVED FOR MOBILE */
+        /* Mobile-specific adjustments - Card-style layout */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -461,58 +467,58 @@
                 font-size: 1.2rem;
             }
             
-            /* Mobile layout - all elements on one line */
+            /* Mobile card-style layout - subject name on top, controls below */
             .subject-row {
-                flex-wrap: nowrap;
-                padding: 10px 0;
-                gap: 8px;
-                align-items: center;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px;
+                gap: 10px;
             }
             
             .subject-name-container {
-                flex: 1;
-                min-width: 0;
-                overflow: hidden;
+                flex: none;
+                width: 100%;
+                overflow: visible;
             }
             
             .subject-name {
-                font-size: 0.85rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
+                font-size: 0.95rem;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
             }
             
             .subject-code {
-                font-size: 0.7rem;
-                display: none; /* Hide code on mobile to save space */
+                font-size: 0.75rem;
+                display: block;
             }
             
             .subject-controls {
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                flex-shrink: 0;
+                justify-content: space-between;
+                gap: 10px;
                 margin-left: 0;
+                width: 100%;
             }
             
             .credit-badge {
-                min-width: 40px;
-                padding: 4px 8px;
-                font-size: 0.75rem;
+                min-width: 45px;
+                padding: 5px 10px;
+                font-size: 0.8rem;
                 flex-shrink: 0;
             }
             
             .grade-select-container {
-                width: 100px;
-                flex-shrink: 0;
+                width: 100%;
+                flex: 1;
             }
             
             .grade-select {
                 width: 100%;
-                padding: 6px 8px;
-                font-size: 0.8rem;
-                min-height: 32px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                min-height: 36px;
             }
             
             .manual-row {
@@ -586,6 +592,24 @@
             
             .main-content {
                 flex-direction: row;
+            }
+            
+            /* Desktop: subject row side-by-side */
+            .subject-row {
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: nowrap;
+            }
+            
+            .subject-name-container {
+                flex: 1;
+                flex-basis: auto;
+                min-width: 0;
+            }
+            
+            .subject-controls {
+                width: auto;
+                flex-basis: auto;
             }
         }
 
