@@ -185,6 +185,7 @@
             align-items: center;
             gap: 15px;
             min-width: 180px;
+            position: relative;
         }
 
         .credit-badge {
@@ -426,7 +427,116 @@
             line-height: 1.5;
         }
 
-
+        /* Mobile-specific adjustments - FIXED FOR CREDIT & GRADE SAME LINE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px 0;
+                margin-bottom: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header p {
+                font-size: 0.9rem;
+            }
+            
+            .left-panel, .right-panel {
+                padding: 15px;
+            }
+            
+            .panel-title {
+                font-size: 1.2rem;
+            }
+            
+            /* FIXED: Mobile layout - credit and grade on same line */
+            .subject-row {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 0;
+            }
+            
+            .subject-name {
+                flex: 1;
+                min-width: 0;
+                font-size: 0.9rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-right: 10px;
+            }
+            
+            .subject-details {
+                flex: 0 0 auto;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                min-width: 140px;
+                justify-content: flex-end;
+            }
+            
+            .credit-badge {
+                min-width: 45px;
+                padding: 6px 10px;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
+            
+            .grade-select-container {
+                flex: 0 0 110px;
+                min-width: 110px;
+                max-width: 130px;
+            }
+            
+            .grade-select {
+                width: 100%;
+                padding: 8px 10px;
+                font-size: 0.9rem;
+                max-width: 100%;
+                min-height: 40px;
+            }
+            
+            .manual-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .manual-row input, .manual-row select {
+                width: 100%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .result-value {
+                font-size: 1.6rem;
+            }
+            
+            .history-table {
+                font-size: 0.8rem;
+            }
+            
+            .history-table th, .history-table td {
+                padding: 8px 6px;
+            }
+        }
 
         @media (min-width: 769px) {
             .left-panel {
@@ -458,7 +568,17 @@
             }
         }
 
+        /* Animation for smooth transitions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -476,6 +596,17 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+
+        /* Error animation */
+        .error {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
     </style>
 </head>
