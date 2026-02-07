@@ -454,39 +454,36 @@
                 font-size: 1.2rem;
             }
             
-            /* Mobile layout - subject name with code on left, credit and grade on right */
+            /* Mobile layout - subject on left, credit and grade on right */
             .subject-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
                 padding: 10px 0;
             }
             
             .subject-name {
                 flex: 1;
-                min-width: 100%;
-                font-size: 0.85rem;
-                overflow: visible;
-                text-overflow: unset;
-                white-space: normal;
-                padding-right: 0;
-                padding-bottom: 5px;
-                line-height: 1.3;
+                min-width: 0;
+                font-size: 0.8rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-right: 5px;
             }
             
             .subject-details {
                 flex: 0 0 auto;
                 display: flex;
                 align-items: center;
-                gap: 15px;
-                min-width: 100%;
-                justify-content: space-between;
+                gap: 8px;
+                min-width: auto;
             }
             
             .credit-badge {
-                min-width: 50px;
-                padding: 5px 10px;
-                font-size: 0.85rem;
+                min-width: 35px;
+                padding: 4px 6px;
+                font-size: 0.75rem;
                 flex-shrink: 0;
             }
             
@@ -498,11 +495,11 @@
             
             .grade-select {
                 width: auto;
-                padding: 8px 15px;
-                font-size: 0.85rem;
+                padding: 6px 8px;
+                font-size: 0.8rem;
                 max-width: none;
-                min-height: 38px;
-                min-width: 80px;
+                min-height: 32px;
+                min-width: 60px;
             }
             
             .manual-row {
