@@ -454,54 +454,53 @@
                 font-size: 1.2rem;
             }
             
-            /* Mobile layout - credit and grade on same line, subject fully visible */
+            /* FIXED: Mobile layout - credit and grade on same line */
             .subject-row {
                 flex-direction: row;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 align-items: center;
-                gap: 8px;
-                padding: 10px 0;
+                gap: 10px;
+                padding: 12px 0;
             }
             
             .subject-name {
-                flex: 1 1 60%;
-                min-width: 150px;
-                font-size: 0.85rem;
-                overflow: visible;
-                text-overflow: unset;
-                white-space: normal;
-                padding-right: 8px;
-                line-height: 1.3;
+                flex: 1;
+                min-width: 0;
+                font-size: 0.9rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-right: 10px;
             }
             
             .subject-details {
                 flex: 0 0 auto;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                min-width: auto;
+                gap: 10px;
+                min-width: 140px;
                 justify-content: flex-end;
             }
             
             .credit-badge {
-                min-width: 40px;
-                padding: 5px 8px;
-                font-size: 0.8rem;
+                min-width: 45px;
+                padding: 6px 10px;
+                font-size: 0.85rem;
                 flex-shrink: 0;
             }
             
             .grade-select-container {
-                flex: 0 0 90px;
-                min-width: 90px;
-                max-width: 110px;
+                flex: 0 0 110px;
+                min-width: 110px;
+                max-width: 130px;
             }
             
             .grade-select {
                 width: 100%;
-                padding: 8px 5px;
-                font-size: 0.85rem;
+                padding: 8px 10px;
+                font-size: 0.9rem;
                 max-width: 100%;
-                min-height: 38px;
+                min-height: 40px;
             }
             
             .manual-row {
