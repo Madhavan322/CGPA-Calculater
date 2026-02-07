@@ -153,39 +153,49 @@
             font-weight: 600;
         }
 
-        /* UPDATED: Subject row styling */
+        /* UPDATED: Improved Subject row styling for mobile */
         .subject-row {
             display: flex;
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #eee;
             flex-wrap: wrap;
+            gap: 10px;
         }
 
         .subject-row:hover {
             background-color: #f9f9ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             border-radius: 5px;
             padding: 12px 10px;
         }
 
-        .subject-name {
-            flex: 3;
-            min-width: 200px;
-            font-weight: 500;
-            margin-bottom: 0;
-            font-size: 0.95rem;
-            padding-right: 15px;
+        .subject-name-container {
+            flex: 1;
+            min-width: 0; /* Important for text truncation */
         }
 
-        .subject-details {
-            flex: 2;
+        .subject-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .subject-code {
+            color: #666;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .subject-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
-            min-width: 180px;
-            position: relative;
+            gap: 12px;
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .credit-badge {
@@ -194,31 +204,29 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             min-width: 50px;
             text-align: center;
             border: 1px solid #c5cae9;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .subject-row:hover .credit-badge {
             background-color: #3949ab;
             color: white;
-            transform: scale(1.05);
             box-shadow: 0 2px 4px rgba(57, 73, 171, 0.2);
         }
 
         .grade-select-container {
-            flex: 1;
-            min-width: 120px;
+            width: 120px;
+            flex-shrink: 0;
         }
 
         .grade-select {
             width: 100%;
-            max-width: 120px;
             padding: 8px 12px;
-            text-align: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             border: 2px solid #ddd;
             border-radius: 5px;
@@ -229,7 +237,6 @@
         .grade-select:focus {
             border-color: #3949ab;
             box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
-            transform: scale(1.02);
         }
 
         .grade-select:hover {
@@ -427,7 +434,7 @@
             line-height: 1.5;
         }
 
-        /* Mobile-specific adjustments - FIXED FOR CREDIT & GRADE SAME LINE */
+        /* Mobile-specific adjustments - IMPROVED FOR MOBILE */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -454,52 +461,58 @@
                 font-size: 1.2rem;
             }
             
-            /* Mobile layout - subject on left, credit and grade on right */
+            /* Mobile layout - all elements on one line */
             .subject-row {
-                flex-direction: row;
-                align-items: center;
-                gap: 10px;
+                flex-wrap: nowrap;
                 padding: 10px 0;
+                gap: 8px;
+                align-items: center;
+            }
+            
+            .subject-name-container {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
             }
             
             .subject-name {
-                flex: 1;
-                min-width: 0;
-                font-size: 0.8rem;
+                font-size: 0.85rem;
+                white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
-                padding-right: 5px;
+                display: block;
             }
             
-            .subject-details {
-                flex: 0 0 auto;
+            .subject-code {
+                font-size: 0.7rem;
+                display: none; /* Hide code on mobile to save space */
+            }
+            
+            .subject-controls {
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                min-width: auto;
+                flex-shrink: 0;
+                margin-left: 0;
             }
             
             .credit-badge {
-                min-width: 35px;
-                padding: 4px 6px;
+                min-width: 40px;
+                padding: 4px 8px;
                 font-size: 0.75rem;
                 flex-shrink: 0;
             }
             
             .grade-select-container {
-                flex: 0 0 auto;
-                min-width: auto;
-                max-width: none;
+                width: 100px;
+                flex-shrink: 0;
             }
             
             .grade-select {
-                width: auto;
+                width: 100%;
                 padding: 6px 8px;
                 font-size: 0.8rem;
-                max-width: none;
                 min-height: 32px;
-                min-width: 60px;
             }
             
             .manual-row {
@@ -534,6 +547,29 @@
             
             .history-table th, .history-table td {
                 padding: 8px 6px;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .subject-row {
+                gap: 15px;
+            }
+            
+            .subject-name {
+                font-size: 0.9rem;
+            }
+            
+            .subject-code {
+                font-size: 0.75rem;
+            }
+            
+            .grade-select-container {
+                width: 110px;
+            }
+            
+            .credit-badge {
+                min-width: 45px;
             }
         }
 
@@ -606,6 +642,32 @@
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* For very small phones */
+        @media (max-width: 380px) {
+            .subject-row {
+                gap: 6px;
+            }
+            
+            .subject-name {
+                font-size: 0.8rem;
+            }
+            
+            .credit-badge {
+                min-width: 35px;
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+            
+            .grade-select-container {
+                width: 90px;
+            }
+            
+            .grade-select {
+                padding: 5px 6px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -1694,8 +1756,11 @@
                 subjectRow.style.animationDelay = `${(index * 0.1) + 0.1}s`;
                 
                 subjectRow.innerHTML = `
-                    <div class="subject-name">${subject.name} <span style="color: #666; font-size: 0.85rem;">(${subject.code})</span></div>
-                    <div class="subject-details">
+                    <div class="subject-name-container">
+                        <div class="subject-name">${subject.name}</div>
+                        <div class="subject-code">${subject.code}</div>
+                    </div>
+                    <div class="subject-controls">
                         <div class="credit-badge">${subject.credits} CR</div>
                         <div class="grade-select-container">
                             <select class="grade-select" data-subject="${subject.code}">
