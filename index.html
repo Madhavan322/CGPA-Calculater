@@ -153,56 +153,86 @@
             font-weight: 600;
         }
 
-        /* Subject Box Styling - Card Style */
+        /* UPDATED: Subject row styling */
         .subject-row {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            background-color: #fafafa;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
             flex-wrap: wrap;
-            transition: box-shadow 0.3s ease;
         }
 
         .subject-row:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .subject-row:last-child {
-            border-bottom: 1px solid #e0e0e0;
+            background-color: #f9f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            padding: 12px 10px;
         }
 
         .subject-name {
             flex: 3;
             min-width: 200px;
             font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 0;
             font-size: 0.95rem;
+            padding-right: 15px;
         }
 
-        .subject-credit {
-            flex: 1;
-            text-align: center;
-            font-weight: 600;
+        .subject-details {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 180px;
+        }
+
+        .credit-badge {
+            background-color: #e8eaf6;
             color: #1a237e;
-            margin-bottom: 5px;
-            min-width: 60px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 50px;
+            text-align: center;
+            border: 1px solid #c5cae9;
+            transition: all 0.3s ease;
         }
 
-        .subject-grade {
+        .subject-row:hover .credit-badge {
+            background-color: #3949ab;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(57, 73, 171, 0.2);
+        }
+
+        .grade-select-container {
             flex: 1;
-            text-align: center;
             min-width: 120px;
         }
 
         .grade-select {
             width: 100%;
             max-width: 120px;
-            padding: 8px 5px;
+            padding: 8px 12px;
             text-align: center;
             font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .grade-select:focus {
+            border-color: #3949ab;
+            box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
+            transform: scale(1.02);
+        }
+
+        .grade-select:hover {
+            border-color: #7986cb;
         }
 
         .results {
@@ -298,17 +328,6 @@
         .btn-success:hover {
             background-color: #1b5e20;
             transform: translateY(-2px);
-        }
-
-        .btn-add {
-            background-color: #fff;
-            color: #3949ab;
-            border: 2px dashed #3949ab;
-            padding: 10px 20px;
-        }
-
-        .btn-add:hover {
-            background-color: #e8eaf6;
         }
 
         .manual-entry {
@@ -407,97 +426,7 @@
             line-height: 1.5;
         }
 
-        /* Mobile-specific adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            header {
-                padding: 15px 0;
-                margin-bottom: 20px;
-            }
-            
-            header h1 {
-                font-size: 1.5rem;
-            }
-            
-            header p {
-                font-size: 0.9rem;
-            }
-            
-            .left-panel, .right-panel {
-                padding: 15px;
-            }
-            
-            .panel-title {
-                font-size: 1.2rem;
-            }
-            
-            .subject-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                padding: 15px;
-            }
-            
-            .subject-name, .subject-credit, .subject-grade {
-                width: 100%;
-                text-align: left;
-            }
-            
-            .subject-name {
-                font-weight: 600;
-                color: #1a237e;
-            }
-            
-            .subject-credit {
-                font-size: 0.9rem;
-                background-color: #e8eaf6;
-                padding: 5px 10px;
-                border-radius: 5px;
-                display: inline-block;
-            }
-            
-            .grade-select {
-                max-width: 100%;
-                padding: 10px;
-            }
-            
-            .manual-row {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .manual-row input, .manual-row select {
-                width: 100%;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .results-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .result-value {
-                font-size: 1.6rem;
-            }
-            
-            .history-table {
-                font-size: 0.8rem;
-            }
-            
-            .history-table th, .history-table td {
-                padding: 8px 6px;
-            }
-        }
+
 
         @media (min-width: 769px) {
             .left-panel {
@@ -529,17 +458,7 @@
             }
         }
 
-        /* Animation for smooth transitions */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -660,11 +579,11 @@
                     
                     <!-- Moved Calculate and Reset buttons here -->
                     <div class="button-group fade-in" id="auto-buttons" style="display: none;">
-                        <button class="btn btn-secondary" id="add-subject-btn">
-                            <i class="fas fa-plus"></i> Add Subject
-                        </button>
                         <button class="btn btn-primary" id="calculate-btn">
-                            <i class="fas fa-calculator"></i> Calculate CGPA
+                            <i class="fas fa-calculator"></i> Calculate GPA
+                        </button>
+                        <button class="btn btn-secondary" id="reset-btn">
+                            <i class="fas fa-redo"></i> Reset
                         </button>
                     </div>
                 </div>
@@ -691,13 +610,13 @@
                             </div>
                         </div>
                         
-                        <!-- Calculate and Reset buttons for manual mode -->
+                        <!-- Moved Calculate and Reset buttons here for manual mode -->
                         <div class="button-group">
-                            <button class="btn btn-secondary" id="add-manual-subject-btn">
+                            <button class="btn btn-secondary" id="add-subject-btn">
                                 <i class="fas fa-plus"></i> Add Subject
                             </button>
                             <button class="btn btn-primary" id="calculate-manual-btn">
-                                <i class="fas fa-calculator"></i> Calculate CGPA
+                                <i class="fas fa-calculator"></i> Calculate
                             </button>
                             <button class="btn btn-secondary" id="reset-manual-btn">
                                 <i class="fas fa-redo"></i> Reset
@@ -1583,7 +1502,6 @@
         const calculateBtn = document.getElementById('calculate-btn');
         const calculateManualBtn = document.getElementById('calculate-manual-btn');
         const addSubjectBtn = document.getElementById('add-subject-btn');
-        const addManualSubjectBtn = document.getElementById('add-manual-subject-btn');
         const resetBtn = document.getElementById('reset-btn');
         const resetManualBtn = document.getElementById('reset-manual-btn');
         const saveSemesterBtn = document.getElementById('save-semester-btn');
@@ -1602,7 +1520,6 @@
         calculateBtn.addEventListener('click', calculateGPA);
         calculateManualBtn.addEventListener('click', calculateManualGPA);
         addSubjectBtn.addEventListener('click', addManualSubjectRow);
-        addManualSubjectBtn.addEventListener('click', addManualSubjectRow);
         resetBtn.addEventListener('click', resetCalculator);
         resetManualBtn.addEventListener('click', resetManualCalculator);
         saveSemesterBtn.addEventListener('click', saveCurrentSemester);
@@ -1641,24 +1558,27 @@
             subjectInfo.textContent = `${deptData.name} - Semester ${semester} Subjects`;
             subjectsContainer.innerHTML = '';
             
-            semesterData.forEach(subject => {
+            semesterData.forEach((subject, index) => {
                 const subjectRow = document.createElement('div');
                 subjectRow.className = 'subject-row fade-in';
+                subjectRow.style.animationDelay = `${(index * 0.1) + 0.1}s`;
                 
                 subjectRow.innerHTML = `
-                    <div class="subject-name">${subject.name} (${subject.code})</div>
-                    <div class="subject-credit">${subject.credits}</div>
-                    <div class="subject-grade">
-                        <select class="grade-select" data-subject="${subject.code}">
-                            <option value="">Select Grade</option>
-                            <option value="O">O</option>
-                            <option value="A+">A+</option>
-                            <option value="A">A</option>
-                            <option value="B+">B+</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="Pass">Pass</option>
-                        </select>
+                    <div class="subject-name">${subject.name} <span style="color: #666; font-size: 0.85rem;">(${subject.code})</span></div>
+                    <div class="subject-details">
+                        <div class="credit-badge">${subject.credits} CR</div>
+                        <div class="grade-select-container">
+                            <select class="grade-select" data-subject="${subject.code}">
+                                <option value="">Select Grade</option>
+                                <option value="O">O</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B+">B+</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="Pass">Pass</option>
+                            </select>
+                        </div>
                     </div>
                 `;
                 
@@ -1707,6 +1627,16 @@
             let totalGradePoints = 0;
             let totalCreditsValue = 0;
             let allGradesSelected = true;
+            
+            // Add selection animation
+            gradeSelects.forEach(select => {
+                if (select.value) {
+                    select.parentElement.style.animation = 'selectPop 0.3s ease';
+                    setTimeout(() => {
+                        select.parentElement.style.animation = '';
+                    }, 300);
+                }
+            });
             
             gradeSelects.forEach((select, index) => {
                 const grade = select.value;
@@ -2030,21 +1960,6 @@
         function init() {
             updateHistoryDisplay();
             toggleCalculationMode();
-            
-            // Add CSS for error class
-            const style = document.createElement('style');
-            style.textContent = `
-                .error {
-                    animation: shake 0.5s;
-                }
-                
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                    20%, 40%, 60%, 80% { transform: translateX(5px); }
-                }
-            `;
-            document.head.appendChild(style);
         }
 
         // Initialize when page loads
