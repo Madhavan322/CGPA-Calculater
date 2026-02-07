@@ -153,16 +153,25 @@
             font-weight: 600;
         }
 
+        /* Subject Box Styling - Card Style */
         .subject-row {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: #fafafa;
             flex-wrap: wrap;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .subject-row:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .subject-row:last-child {
-            border-bottom: none;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .subject-name {
@@ -289,6 +298,17 @@
         .btn-success:hover {
             background-color: #1b5e20;
             transform: translateY(-2px);
+        }
+
+        .btn-add {
+            background-color: #fff;
+            color: #3949ab;
+            border: 2px dashed #3949ab;
+            padding: 10px 20px;
+        }
+
+        .btn-add:hover {
+            background-color: #e8eaf6;
         }
 
         .manual-entry {
@@ -418,6 +438,7 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
+                padding: 15px;
             }
             
             .subject-name, .subject-credit, .subject-grade {
@@ -425,8 +446,17 @@
                 text-align: left;
             }
             
+            .subject-name {
+                font-weight: 600;
+                color: #1a237e;
+            }
+            
             .subject-credit {
-                font-size: 1rem;
+                font-size: 0.9rem;
+                background-color: #e8eaf6;
+                padding: 5px 10px;
+                border-radius: 5px;
+                display: inline-block;
             }
             
             .grade-select {
@@ -630,11 +660,11 @@
                     
                     <!-- Moved Calculate and Reset buttons here -->
                     <div class="button-group fade-in" id="auto-buttons" style="display: none;">
-                        <button class="btn btn-primary" id="calculate-btn">
-                            <i class="fas fa-calculator"></i> Calculate GPA
+                        <button class="btn btn-secondary" id="add-subject-btn">
+                            <i class="fas fa-plus"></i> Add Subject
                         </button>
-                        <button class="btn btn-secondary" id="reset-btn">
-                            <i class="fas fa-redo"></i> Reset
+                        <button class="btn btn-primary" id="calculate-btn">
+                            <i class="fas fa-calculator"></i> Calculate CGPA
                         </button>
                     </div>
                 </div>
@@ -661,13 +691,13 @@
                             </div>
                         </div>
                         
-                        <!-- Moved Calculate and Reset buttons here for manual mode -->
+                        <!-- Calculate and Reset buttons for manual mode -->
                         <div class="button-group">
-                            <button class="btn btn-secondary" id="add-subject-btn">
+                            <button class="btn btn-secondary" id="add-manual-subject-btn">
                                 <i class="fas fa-plus"></i> Add Subject
                             </button>
                             <button class="btn btn-primary" id="calculate-manual-btn">
-                                <i class="fas fa-calculator"></i> Calculate
+                                <i class="fas fa-calculator"></i> Calculate CGPA
                             </button>
                             <button class="btn btn-secondary" id="reset-manual-btn">
                                 <i class="fas fa-redo"></i> Reset
@@ -1553,6 +1583,7 @@
         const calculateBtn = document.getElementById('calculate-btn');
         const calculateManualBtn = document.getElementById('calculate-manual-btn');
         const addSubjectBtn = document.getElementById('add-subject-btn');
+        const addManualSubjectBtn = document.getElementById('add-manual-subject-btn');
         const resetBtn = document.getElementById('reset-btn');
         const resetManualBtn = document.getElementById('reset-manual-btn');
         const saveSemesterBtn = document.getElementById('save-semester-btn');
@@ -1571,6 +1602,7 @@
         calculateBtn.addEventListener('click', calculateGPA);
         calculateManualBtn.addEventListener('click', calculateManualGPA);
         addSubjectBtn.addEventListener('click', addManualSubjectRow);
+        addManualSubjectBtn.addEventListener('click', addManualSubjectRow);
         resetBtn.addEventListener('click', resetCalculator);
         resetManualBtn.addEventListener('click', resetManualCalculator);
         saveSemesterBtn.addEventListener('click', saveCurrentSemester);
